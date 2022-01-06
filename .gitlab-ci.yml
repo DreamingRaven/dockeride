@@ -1,0 +1,48 @@
+# @Author: GeorgeRaven <archer>
+# @Date:   2020-10-20T23:58:25+01:00
+# @Last modified by:   archer
+# @Last modified time: 2021-11-30T14:36:45+00:00
+# @License: please see LICENSE file in project root
+
+stages:
+  - build
+  - test
+  - deploy
+
+multi_arch_docker_build:
+  stage: deploy
+  image: docker:stable # an alpine image
+  services:
+    - docker:dind
+  variables:
+    BUILDX_VERSION: "v0.7.1" # https://github.com/docker/buildx/releases
+    BUILDX_ARCH: "linux-amd64"
+  before_script:
+    - docker info
+  only:
+    - master
+    - staging
+  before_script:
+    - apk add git
+    - docker login registry.gitlab.com
+      -u ${CI_REGISTRY_USER}
+      -p ${CI_REGISTRY_PASSWORD}
+    - wget -O /usr/bin/docker-buildx
+      https://github.com/docker/buildx/releases/download/${BUILDX_VERSION}/buildx-${BUILDX_VERSION}.${BUILDX_ARCH}
+    - chmod +x /usr/bin/docker-buildx
+  script:
+    - export SRC_VER="$(set -o pipefail && git describe --long 2>/dev/null | sed 's/\([^-]*-g\)/r\1/;s/-/./g' || printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)")"
+    - docker-buildx create
+      --use
+    - docker-buildx build
+      --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8
+      --label "version=${SRC_VER}"
+      --label "commit=$(git rev-parse HEAD)"
+      -t "$(echo ${CI_REGISTRY}/${CI_PROJECT_PATH}:${CI_COMMIT_BRANCH} | tr "[:upper:]" "[:lower:]")"
+      --push
+      -f Dockerfile .
+    - echo "$(echo ${CI_REGISTRY}/${CI_PROJECT_PATH}:${CI_COMMIT_BRANCH} | tr "[:upper:]" "[:lower:]")"
+  after_script:
+    - docker logout ${CI_REGISTRY}
+  tags:
+    - docker
