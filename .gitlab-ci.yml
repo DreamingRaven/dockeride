@@ -41,7 +41,7 @@ multi_arch_docker_build:
       -t "$(echo ${CI_REGISTRY}/${CI_PROJECT_PATH}:${CI_COMMIT_BRANCH} | tr "[:upper:]" "[:lower:]")"
       --push
       -f Dockerfile .
-      "$(echo ${CI_REGISTRY}/${CI_PROJECT_PATH}:${CI_COMMIT_BRANCH} | tr "[:upper:]" "[:lower:]")"
+    - "$(echo ${CI_REGISTRY}/${CI_PROJECT_PATH}:${CI_COMMIT_BRANCH} | tr "[:upper:]" "[:lower:]")"
   after_script:
     - docker logout ${CI_REGISTRY}
   tags:
