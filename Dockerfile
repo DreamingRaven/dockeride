@@ -17,8 +17,8 @@ ARG NEOVIM_CONFIG_DIR="/root/.config/nvim"
 RUN mkdir -p ${NEOVIM_CONFIG_DIR}
 
 # use ours or direct nvchad config
-# COPY . ${NEOVIM_CONFIG_DIR}
-RUN git clone https://github.com/NvChad/NvChad ${NEOVIM_CONFIG_DIR}
+COPY . ${NEOVIM_CONFIG_DIR}
+# RUN git clone https://github.com/NvChad/NvChad ${NEOVIM_CONFIG_DIR}
 
 # helpful debug info to see what is there
 RUN tree ${NEOVIM_CONFIG_DIR}
