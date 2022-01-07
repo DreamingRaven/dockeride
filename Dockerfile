@@ -12,9 +12,12 @@ RUN apk add --update \
 
 # setting config destination dir
 ARG NEOVIM_CONFIG_DIR="/root/.config/nvim"
+ARG PLAYGROUND_DIR="/root/playground"
 
 # ensure neovim config dir exists
-RUN mkdir -p ${NEOVIM_CONFIG_DIR}
+RUN mkdir -p ${NEOVIM_CONFIG_DIR} && \
+    mkdir -p ${PLAYGROUND_DIR} && \
+    ln -s ${PLAYGROUND_DIR} /playground
 
 # use ours or direct nvchad config
 COPY . ${NEOVIM_CONFIG_DIR}
