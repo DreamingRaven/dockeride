@@ -50,6 +50,7 @@ Lastly the clipboard. Neovim uses clipboard providers to allow it to access the 
 xhost local:root && \
 sudo docker build -t a/dockeride -f Dockerfile . && \
 sudo docker run -e DISPLAY --volume /tmp/.X11-unix:/tmp/.X11-unix --volume /home/archer/git/dockeride:/playground -it a/dockeride
+# xhost -local:root # uncomment this to remove local root from authenticatable hosts again
 ```
 
 There is not much information on this but you can refer to: https://stackoverflow.com/a/41703217/11164973
