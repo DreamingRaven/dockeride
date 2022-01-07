@@ -24,3 +24,22 @@ sudo docker run -it registry.gitlab.com/deepcypher/dockeride:master
 ```
 
 This will be just the default installation, there wont be any files or folders mounted inside this container. So feel free to play around with wanton disregard.
+
+Usage
++++++
+
+Clearly an IDE has no purpose unless you can modify desired files in a persistent manner. To do this we need only mount the files we desire using docker mounts.
+
+E.G if you are currentley in the same directory as this README, you can use DockerIDE to modify itself (we use the folder /home/archer/git/dockeride your dockeride may be somewhere else) by:
+
+```bash
+sudo docker run --volume /home/archer/git/dockeride:/playground -it registry.gitlab.com/deepcypher/dockeride:master
+```
+
+If you would like to build the docker container and run it yourself so you can have your own customisations you can use:
+
+```bash
+sudo docker build -t a/dockeride -f Dockerfile . && sudo docker run --volume /home/archer/git/dockeride:/playground -it a/dockeride
+```
+
+playground is a symlink that will ensure the files are read-writeable and mounted in the correct location, for the correct user. The intention is to drop permissions so the user can only modify the selected files and cant modify the container in any consequential way.
