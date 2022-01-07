@@ -8,11 +8,12 @@ local hooks = require "core.hooks"
 
 -- MAPPINGS
 -- To add new plugins, use the "setup_mappings" hook,
-
+-- try :help key-notation
 hooks.add("setup_mappings", function(map)
    map("n", "<leader>cc", ":Telescope <CR>", opt)
    map("n", "<leader>q", ":q <CR>", opt)
-   map("n", "<C-_>", ":NERDCommenterToggle <CR>", opt)
+   map("n", "<C-_>", ":CommentToggle<CR>", opt)
+   map("n", "<C-Bslash>", ":NvimTreeToggle<CR>", opt)
 end)
 
 -- NOTE : opt is a variable  there (most likely a table if you want multiple options),
@@ -40,6 +41,11 @@ hooks.add("install_plugins", function(use)
 --      --further packer options
 --   }
 end)
+
+-- set helpfull indicators
+-- vim.go.list
+-- vim.opt.showbreak=↪\
+-- set listchars=tab:→\ ,eol:¬,trail:·,nbsp:⍽,extends:>,precedes:<
 
 -- NOTE: we heavily suggest using Packer's lazy loading (with the 'event' field)
 -- see: https://github.com/wbthomason/packer.nvim
