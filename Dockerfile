@@ -8,6 +8,10 @@ RUN apk add --update \
     neovim \
     ripgrep \
     alpine-sdk \
+    xclip \
+    python3 \
+    nodejs \
+    neovim-doc \
     tree
 
 # setting config destination dir
@@ -35,4 +39,4 @@ RUN nvim --headless -c 'autocmd User PackerComplete quitall' -c 'silent PackerSy
 
 # set up working directory and entrypoint
 WORKDIR /root
-ENTRYPOINT nvim
+ENTRYPOINT nvim '+set clipboard=unnamed'
