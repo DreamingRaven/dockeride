@@ -36,6 +36,12 @@ hooks.add("install_plugins", function(use)
 --      event = "InsertEnter",
    }
 
+   use {
+      "neoclide/coc.nvim",
+      branch = "release",
+--      event = "InsertEnter",
+   }
+
 --   use {
 --      "user or orgname/reponame",
 --      --further packer options

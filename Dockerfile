@@ -13,6 +13,7 @@ RUN apk add --update \
     nodejs \
     neovim-doc \
     rust \
+    nodejs \
     tree
 
 # setting config destination dir
