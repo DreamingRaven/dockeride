@@ -9,12 +9,19 @@ RUN apk add --update \
     ripgrep \
     alpine-sdk \
     xclip \
+    neovim-doc \
+    tree
+
+# RUN echo 'https://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories
+# language dependencies, and language servers for things like CoC
+RUN apk add --repository "https://dl-cdn.alpinelinux.org/alpine/edge/testing" \
+    go \
+    gopls \
+    rust \
     python3 \
     nodejs \
-    neovim-doc \
-    rust \
-    nodejs \
-    tree
+    npm && \
+    npm install -g dockerfile-language-server-nodejs
 
 # setting config destination dir
 ARG NEOVIM_CONFIG_DIR="/root/.config/nvim"
