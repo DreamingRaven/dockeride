@@ -7,3 +7,50 @@ I always wanted an IDE that I could easily modify like neovim but I never liked 
 DockerIDE seeks to solve this by containerising the whole of Neovim and its plugins into a unprivileged container. That way only the files I allow could possibly be modified, and all the other processes are isolated from both my normal workspace, and from other running processes.
 
 I also wanted an IDE that was not only customable but reproducible across any and all of my systems. Its not great having these customisations but then having trying to reproduce them on other machines. So lets use docker containers we can build and distribute, and that other can build on top of!
+
+Requirements
+++++++++++++
+
+This project requires only one thing. `Docker <https://docs.docker.com/>`_ .
+Make sure Docker is installed and the Docker daemon is running.
+
+Quick Start
++++++++++++
+
+If you just want to try it out:
+
+```bash
+sudo docker run -it registry.gitlab.com/deepcypher/dockeride:master
+```
+
+This will be just the default installation, there wont be any files or folders mounted inside this container. So feel free to play around with wanton disregard.
+
+Usage
++++++
+
+Clearly an IDE has no purpose unless you can modify desired files in a persistent manner. To do this we need only mount the files we desire using docker mounts.
+
+E.G if you are currentley in the same directory as this README, you can use DockerIDE to modify itself (we use the folder /home/archer/git/dockeride your dockeride may be somewhere else) by:
+
+```bash
+sudo docker run --volume /home/archer/git/dockeride:/playground -it registry.gitlab.com/deepcypher/dockeride:master
+```
+
+If you would like to build the docker container and run it yourself so you can have your own customisations you can use:
+
+```bash
+sudo docker build -t a/dockeride -f Dockerfile . && sudo docker run --volume /home/archer/git/dockeride:/playground -it a/dockeride
+```
+
+playground is a symlink that will ensure the files are read-writeable and mounted in the correct location, for the correct user. The intention is to drop permissions so the user can only modify the selected files and cant modify the container in any consequential way.
+
+Lastly the clipboard. Neovim uses clipboard providers to allow it to access the clipboard. (use ':help provider-clipboard' and ':checkhealth' to verify a valid provider exists for the clipboard). The provider is selected based on the ${DISPLAY} environment variable. So for instance on X11 ${DISPLAY} might be ':0' which would select 'xclip' or some other valid X11 provider. So in some ways it is possible to just share this environment variable in the container, which does work once, before clipboard errors. However if you want to make it more repeatable you can share X11 with the container and set it as valid in xhost:
+
+```bash
+xhost local:root && \
+sudo docker build -t a/dockeride -f Dockerfile . && \
+sudo docker run -e DISPLAY --volume /tmp/.X11-unix:/tmp/.X11-unix --volume /home/archer/git/dockeride:/playground -it a/dockeride
+# xhost -local:root # uncomment this to remove local root from authenticatable hosts again
+```
+
+There is not much information on this but you can refer to: https://stackoverflow.com/a/41703217/11164973
