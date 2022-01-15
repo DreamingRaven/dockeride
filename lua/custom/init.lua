@@ -32,11 +32,6 @@ hooks.add("install_plugins", function(use)
    }
 
    use {
-      "wfxr/minimap.vim",
---      event = "InsertEnter",
-   }
-
-   use {
       "neoclide/coc.nvim",
       branch = "release",
 --      event = "InsertEnter",
@@ -45,7 +40,7 @@ hooks.add("install_plugins", function(use)
 end)
 
 -- https://github.com/nanotee/nvim-lua-guide#using-api-functions
-vim.api.nvim_set_option("minimap_auto_start", 1)
+-- vim.api.nvim_set_option("minimap_auto_start", 1)
 -- vim.cmd([[
 -- let g:minimap_width = 10
 -- let g:minimap_auto_start = 1

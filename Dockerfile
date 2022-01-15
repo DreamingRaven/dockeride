@@ -34,11 +34,12 @@ RUN useradd -m ${USERNAME} && \
     chown -R ${USERNAME}:${USERNAME} /playground
 USER ${USERNAME}
 
-
 # ensure neovim config dir exists and code-minimap is installed
 RUN mkdir -p ${HOME}/${NEOVIM_CONFIG_DIR} && \
     mkdir -p ${HOME}/${PLAYGROUND_DIR}
-    #cargo install code-minimap
+
+# set up working directory and entrypoint
+WORKDIR ${HOME}/${PLAYGROUND_DIR}
 
 # set cargo path into users bashrc
 RUN echo "export PATH=${HOME}/.cargo/bin" >> ${HOME}/.bashrc
@@ -57,7 +58,5 @@ RUN tree "${HOME}/${NEOVIM_CONFIG_DIR}"
 # https://stackoverflow.com/questions/890802/how-do-i-disable-the-press-enter-or-type-command-to-continue-prompt-in-vim
 RUN nvim --headless -c 'autocmd User PackerComplete quitall' -c 'silent PackerSync'
 
-# set up working directory and entrypoint
-WORKDIR ${HOME}/${PLAYGROUND_DIR}
 #ENTRYPOINT nvim '+set clipboard=unnamed'
 CMD nvim '+set clipboard=unnamed'
