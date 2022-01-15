@@ -36,11 +36,22 @@ hooks.add("install_plugins", function(use)
 --      event = "InsertEnter",
    }
 
---   use {
---      "user or orgname/reponame",
---      --further packer options
---   }
+   use {
+      "neoclide/coc.nvim",
+      branch = "release",
+--      event = "InsertEnter",
+   }
+
 end)
+
+-- https://github.com/nanotee/nvim-lua-guide#using-api-functions
+vim.api.nvim_set_option("minimap_auto_start", 1)
+-- vim.cmd([[
+-- let g:minimap_width = 10
+-- let g:minimap_auto_start = 1
+-- let g:minimap_auto_start_win_enter = 1
+-- let g:minimap_highlight_range = 1
+-- ]])
 
 -- set helpfull indicators
 -- vim.go.list

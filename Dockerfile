@@ -9,26 +9,46 @@ RUN apk add --update \
     ripgrep \
     alpine-sdk \
     xclip \
+    neovim-doc \
+    tree \
+    shadow
+
+# RUN echo 'https://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories
+# language dependencies, and language servers for things like CoC
+RUN apk add --repository "https://dl-cdn.alpinelinux.org/alpine/edge/testing" \
+    go \
+    gopls \
+    rust \
+    cargo \
     python3 \
     nodejs \
-    neovim-doc \
-    tree
+    npm && \
+    npm install -g dockerfile-language-server-nodejs
 
-# setting config destination dir
-ARG NEOVIM_CONFIG_DIR="/root/.config/nvim"
-ARG PLAYGROUND_DIR="/root/playground"
+# user related args
+ARG USERNAME="archie"
+ARG NEOVIM_CONFIG_DIR=".config/nvim"
+ARG PLAYGROUND_DIR="playground"
+RUN useradd -m ${USERNAME} && \
+    ln -s /home/${USERNAME}/${PLAYGROUND_DIR} /playground && \
+    chown -R ${USERNAME}:${USERNAME} /playground
+USER ${USERNAME}
 
-# ensure neovim config dir exists
-RUN mkdir -p ${NEOVIM_CONFIG_DIR} && \
-    mkdir -p ${PLAYGROUND_DIR} && \
-    ln -s ${PLAYGROUND_DIR} /playground
+
+# ensure neovim config dir exists and code-minimap is installed
+RUN mkdir -p ${HOME}/${NEOVIM_CONFIG_DIR} && \
+    mkdir -p ${HOME}/${PLAYGROUND_DIR}
+    #cargo install code-minimap
+
+# set cargo path into users bashrc
+RUN echo "export PATH=${HOME}/.cargo/bin" >> ${HOME}/.bashrc
 
 # use ours or direct nvchad config
-COPY . ${NEOVIM_CONFIG_DIR}
+COPY . "/home/${USERNAME}/${NEOVIM_CONFIG_DIR}"
 # RUN git clone https://github.com/NvChad/NvChad ${NEOVIM_CONFIG_DIR}
 
 # helpful debug info to see what is there
-RUN tree ${NEOVIM_CONFIG_DIR}
+RUN tree "${HOME}/${NEOVIM_CONFIG_DIR}"
 
 # Bootstrap packer https://github.com/wbthomason/packer.nvim#bootstrapping
 # https://github.com/wbthomason/packer.nvim/issues/599
@@ -38,5 +58,6 @@ RUN tree ${NEOVIM_CONFIG_DIR}
 RUN nvim --headless -c 'autocmd User PackerComplete quitall' -c 'silent PackerSync'
 
 # set up working directory and entrypoint
-WORKDIR /root
-ENTRYPOINT nvim '+set clipboard=unnamed'
+WORKDIR ${HOME}/${PLAYGROUND_DIR}
+#ENTRYPOINT nvim '+set clipboard=unnamed'
+CMD nvim '+set clipboard=unnamed'
