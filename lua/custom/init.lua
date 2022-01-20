@@ -12,7 +12,8 @@ local hooks = require "core.hooks"
 hooks.add("setup_mappings", function(map)
    map("n", "<leader>cc", ":Telescope <CR>", opt)
    map("n", "<leader>q", ":q <CR>", opt)
-   map("n", "<C-_>", ":CommentToggle<CR>", opt)
+   map("n", "<C-_>", ":lua require('Comment.api').toggle_current_linewise()<CR>", opt)
+   map("v", "<C-_>", ":lua require('Comment.api').toggle_linewise_op(vim.fn.visualmode())<CR>", opt)
    map("n", "<C-Bslash>", ":NvimTreeToggle<CR>", opt)
 end)
 
