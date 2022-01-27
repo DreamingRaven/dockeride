@@ -66,7 +66,6 @@ func main() {
 
   go  io.Copy(os.Stdout, waiter.Reader)
   go  io.Copy(os.Stderr, waiter.Reader)
-
   if err != nil {
     panic(err)
   }
@@ -78,11 +77,9 @@ func main() {
     }
   }()
 
-  // Write to docker container
   go func(w io.WriteCloser) {
     for {
       data, ok := <-inout
-      //log.Println("Received to send to docker", string(data))
       if !ok {
         fmt.Println("!ok")
         w.Close()
