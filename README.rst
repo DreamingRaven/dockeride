@@ -30,7 +30,7 @@ Usage
 
 Clearly an IDE has no purpose unless you can modify desired files in a persistent manner. To do this we need only mount the files we desire using docker mounts.
 
-E.G if you are currentley in the same directory as this README, you can use DockerIDE to modify itself (we use the folder /home/archer/git/dockeride your dockeride may be somewhere else) by:
+E.G if you have downloaded this git repo and are currentley in the same directory as this README, you can use DockerIDE to modify itself (we use the folder /home/archer/git/dockeride your dockeride may be somewhere else or if you want to modify other files simply change this path to a directory you want to use) by:
 
 .. code-block::
 
@@ -54,3 +54,8 @@ Lastly the clipboard. Neovim uses clipboard providers to allow it to access the 
   # xhost -local:root # uncomment this to remove local root from authenticatable hosts again
 
 There is not much information on this but you can refer to: https://stackoverflow.com/a/41703217/11164973
+
+NvChad
+++++++
+
+NvChad has some decent documentation that of course still applies here: https://nvchad.github.io/getting-started/post-install DockerIDE should be almost 1-1 with NvChad. We only recustomise and add some extra goodness. However if you have any issues, please report it here first. We dont want to spam NvChad with issues that may or may not relate to it. We suspect most issues will be docker related, since its quite a rigid/ constrained way to run things.
