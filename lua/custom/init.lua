@@ -60,9 +60,15 @@ end)
 -- ]])
 
 -- OPTIONS
-vim.expandtab = true
+-- tab related
+vim.o.expandtab = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
+-- spell checking
+vim.spelllang = en
+-- vim.spell = true
+vim.o.spell = true
+-- vim.api.nvim_set_option("spell", true)
 
 -- AUTOCMDS / AUGROUPS
 -- added backslashes so backslash would be literal!
