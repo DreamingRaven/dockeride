@@ -38,6 +38,16 @@ hooks.add("install_plugins", function(use)
 --      event = "InsertEnter",
    }
 
+   use {
+      "tpope/vim-sleuth",
+--      event = "InsertEnter",
+   }
+
+   use {
+      "editorconfig/editorconfig-vim",
+--      event = "InsertEnter",
+   }
+
 end)
 
 -- https://github.com/nanotee/nvim-lua-guide#using-api-functions
@@ -48,6 +58,22 @@ end)
 -- let g:minimap_auto_start_win_enter = 1
 -- let g:minimap_highlight_range = 1
 -- ]])
+
+-- OPTIONS
+-- tab related
+vim.o.expandtab = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+-- spell checking
+vim.spelllang = en
+-- vim.spell = true
+vim.o.spell = true
+-- vim.api.nvim_set_option("spell", true)
+
+-- AUTOCMDS / AUGROUPS
+-- added backslashes so backslash would be literal!
+-- usually this would be "autocmd BufWritePre * :%s/\s\+$//e"
+vim.cmd "BufWritePre * :%s/\\s\\+$//e"
 
 -- set helpfull indicators
 -- vim.go.list
