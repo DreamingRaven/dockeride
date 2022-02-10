@@ -48,6 +48,14 @@ hooks.add("install_plugins", function(use)
 --      event = "InsertEnter",
    }
 
+   use {
+      "fatih/vim-go",
+      -- run = ":GoUpdateBinaries",
+      ft = "go",
+      -- config = "vim.cmd [[GoUpdateBinaries]]"
+--      event = "InsertEnter",
+   }
+
 end)
 
 -- https://github.com/nanotee/nvim-lua-guide#using-api-functions
