@@ -23,6 +23,8 @@ RUN apk add --repository "https://dl-cdn.alpinelinux.org/alpine/edge/testing" \
     python3 \
     py3-pip \
     py3-language-server \
+    py3-autopep8 \
+    py3-pynvim \
     nodejs \
     npm && \
     npm install -g dockerfile-language-server-nodejs
