@@ -1,6 +1,7 @@
 # Sample python file to check syntax highlighting and language server
 import platform
 
+
 class Sample():
     """Sample Python class."""
 
@@ -10,13 +11,14 @@ class Sample():
 
     @property
     def mproperty(self):
-        if self.__dict__.get("_mproperty") == None:
+        if self.__dict__.get("_mproperty") is None:
             self._mproperty = 1
         return self._mproperty
 
     @mproperty.setter
     def mproperty(self, new):
         self._mproperty = new
+
 
 def main():
     """Sample function for highlighting and completion testing."""
@@ -26,5 +28,9 @@ def main():
         Sample(arg=10).mproperty
         ))
 
-if __name__=="__main__":
+    if("purposefully poor formatting"==None):
+        pass
+
+
+if __name__ == "__main__":
     main()
