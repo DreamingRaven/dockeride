@@ -26,28 +26,40 @@ end)
 -- examples below:
 
 hooks.add("install_plugins", function(use)
-  -- automatic commenting out by hotkey by file type
+   -- automatic commenting out by hotkey by file type
    use {
       "preservim/nerdcommenter",
 --      event = "InsertEnter",
    }
 
+   -- autocompletion packages
    use {
       "neoclide/coc.nvim",
       branch = "release",
 --      event = "InsertEnter",
    }
 
+   -- indentation and style management packages
    use {
       "tpope/vim-sleuth",
 --      event = "InsertEnter",
    }
-
    use {
       "editorconfig/editorconfig-vim",
 --      event = "InsertEnter",
    }
 
+   -- automatic code formatting
+   use {
+      "Chiel92/vim-autoformat",
+      -- run = ":GoUpdateBinaries",
+      ft = {"python"},
+      -- config = "vim.cmd [[GoUpdateBinaries]]"
+--      event = "InsertEnter",
+   }
+
+
+   -- language specific utilities
    use {
       "fatih/vim-go",
       -- run = ":GoUpdateBinaries",
@@ -59,13 +71,6 @@ hooks.add("install_plugins", function(use)
 end)
 
 -- https://github.com/nanotee/nvim-lua-guide#using-api-functions
--- vim.api.nvim_set_option("minimap_auto_start", 1)
--- vim.cmd([[
--- let g:minimap_width = 10
--- let g:minimap_auto_start = 1
--- let g:minimap_auto_start_win_enter = 1
--- let g:minimap_highlight_range = 1
--- ]])
 
 -- OPTIONS
 -- tab related
