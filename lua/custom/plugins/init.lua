@@ -1,8 +1,15 @@
 return {
-
+  -- autocompletion
   {
      "neoclide/coc.nvim",
      branch = "release",
+  },
+  -- indentation helpers
+  {
+    "tpope/vim-sleuth"
+  },
+  {
+    "editorconfig/editorconfig-vim"
   }
 
    -- {
