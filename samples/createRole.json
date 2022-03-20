@@ -1,0 +1,10 @@
+{
+  role: "{{collection_name}}",
+  privileges: [
+    {resource: {db:"{{db_name}}", collection:"{{collection_name}}"},
+     actions: ["find", "update", "insert", "remove"]}
+  ],
+  roles: [
+    {role: "read", db:"{{db_name}}"}  
+  ]
+}
