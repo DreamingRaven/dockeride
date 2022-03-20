@@ -27,9 +27,6 @@ RUN apk add --repository "https://dl-cdn.alpinelinux.org/alpine/edge/testing" \
     cargo \
     npm && \
     npm install -g dockerfile-language-server-nodejs
-#
-# # symlink python to python3 since it is not done by default
-# RUN ln -s /usr/bin/python3 /usr/bin/python
 
 # create and swap to user to drop privs
 RUN useradd -m ${USERNAME} && \
