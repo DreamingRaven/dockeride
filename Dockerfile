@@ -1,5 +1,10 @@
 FROM alpine:edge
 
+# user related args
+ARG USERNAME="archie"
+ARG NEOVIM_CONFIG_DIR=".config/nvim"
+ARG PLAYGROUND_DIR="playground"
+
 # alpine sdk and neovim come with LuaJIT no need to add it ourselves
 # setup the basic system
 RUN apk add --update \
@@ -20,22 +25,13 @@ RUN apk add --repository "https://dl-cdn.alpinelinux.org/alpine/edge/testing" \
     gopls \
     rust \
     cargo \
-    python3 \
-    py3-pip \
-    py3-language-server \
-    py3-autopep8 \
-    py3-pynvim \
-    nodejs \
     npm && \
     npm install -g dockerfile-language-server-nodejs
+#
+# # symlink python to python3 since it is not done by default
+# RUN ln -s /usr/bin/python3 /usr/bin/python
 
-# symlink python to python3 since it is not done by default
-RUN ln -s /usr/bin/python3 /usr/bin/python
-
-# user related args
-ARG USERNAME="archie"
-ARG NEOVIM_CONFIG_DIR=".config/nvim"
-ARG PLAYGROUND_DIR="playground"
+# create and swap to user to drop privs
 RUN useradd -m ${USERNAME} && \
     ln -s /home/${USERNAME}/${PLAYGROUND_DIR} /playground && \
     chown -R ${USERNAME}:${USERNAME} /playground
@@ -44,22 +40,6 @@ USER ${USERNAME}
 # ensure neovim config dir exists and code-minimap is installed
 RUN mkdir -p ${HOME}/${NEOVIM_CONFIG_DIR} && \
     mkdir -p ${HOME}/${PLAYGROUND_DIR}
-
-# get 1.18 beta version of go + gopls installed for swanky new features
-# RUN go install golang.org/dl/go1.18beta2@latest && \
-#     cd "$(go env GOPATH)/bin" && \
-#     "./go1.18beta2" download && \
-#     "./go1.18beta2" install golang.org/x/tools/gopls@latest
-# RUN cd "$(go env GOPATH)/bin" && \
-#     ln -s  "./go1.18beta2" "./go" && \
-#     export GOPATH="$(go env GOPATH)" && \
-#     export PATH="${GOPATH}/bin:${PATH}" && \
-#     export GOROOT="/home/${USERNAME}/sdk/go1.18beta2" && \
-#     echo "${GOROOT} ${GOPATH} ${PATH}" && \
-#     tree && \
-#     go env
-#     tree "$(go env GOPATH)/bin"
-#     "$(go env GOPATH)/bin/go1.18beta2" install golang.org/x/tools/gopls@latest
 
 # set up working directory and entrypoint
 WORKDIR ${HOME}/${PLAYGROUND_DIR}
