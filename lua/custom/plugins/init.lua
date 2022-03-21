@@ -10,6 +10,11 @@ return {
   },
   {
     "editorconfig/editorconfig-vim"
+  },
+  -- language specific utils
+  {
+    "fatih/vim-go",
+    ft = "go",
   }
 
    -- {
